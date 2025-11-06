@@ -3,7 +3,7 @@ import spellchecker
 from pynput import keyboard
 
 MODE = "Auto" # UwU or Auto
-
+WORD_BREAKS = ["Key.space", "Key.enter", "'.'", "';'", "':'", "'/'", "','", "'!'", "'?'"]
 class Corrector:
     spell_words_good_inator = spellchecker.SpellChecker()
     keyboard_control_inator = keyboard.Controller()
@@ -12,9 +12,9 @@ class Corrector:
     def keystroke(self, key):
         if key == keyboard.Key.esc:
             return False
-        if str(key) in ["Key.space", "Key.enter", "'.'", "';'", "':'", "'/'", "','", "'!'"]:
+        if str(key) in WORD_BREAKS:
             word = ''.join(self.word)
-            if word == " ": return
+            if not bool(word.strip()): return
             correction:str
             match MODE:
                 case "Auto":
@@ -107,4 +107,4 @@ keyboard_listener = keyboard.Listener(on_press=corrector.keystroke)
 keyboard_listener.start()
 keyboard_listener.join()
 
-# awesomely
+#
